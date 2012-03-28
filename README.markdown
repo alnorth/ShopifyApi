@@ -13,7 +13,7 @@ This might come as a big surprise to people... but it's all dynamic. You structu
 
 For instance - if you want to query for products, you make a JSON request to the Shopify API (the docs are here: http://api.shopify.com/product.html):
 
-	var shopify = new Shopify.Api("somestore.myshopify.com","myAPIKey","myAPIPassword");
+	dynamic shopify = new Shopify.Api("myAPIKey","myAPIPassword","somestore.myshopify.com");
 	var query = shopify.Products();
 	foreach(var product in query.products){
 		Console.Writeline(product.title);
@@ -23,7 +23,7 @@ In this example, the method "Products()" doesn't exist - it's "caught" by the AP
 
 You can also query by passing in parameters:
 	
-	var shopify = new Shopify.Api("somestore.myshopify.com","myAPIKey","myAPIPassword");
+	dynamic shopify = new Shopify.Api("myAPIKey","myAPIPassword","somestore.myshopify.com");
 	var query = shopify.Products(collection_id: 12121212);
 	foreach(var product in query.products){
 		Console.Writeline(product.title);
@@ -42,7 +42,7 @@ Again, all dynamic. For this you use an ExpandoObject and pass it into the API:
 		//add variants and price here using arrays
 	}
 
-	var shopify = new Shopify.Api("somestore.myshopify.com","myAPIKey","myAPIPassword");
+	dynamic shopify = new Shopify.Api("myAPIKey","myAPIPassword","somestore.myshopify.com");
 	shopify.Products.Save(p);
 
 The last call there is, once again, dynamically inferred. "Products" doesn't exist as a property on "shopify" - so a bunch of goodness happens which results in you being able to execute an HTTP POST to the Shopify API.
@@ -51,7 +51,7 @@ If there's an "id" present on the product, a "PUT" will be executed, which will 
 
 To delete, you simply need to know the ID. You can do that easily:
 	
-	var shopify = new Shopify.Api("somestore.myshopify.com","myAPIKey","myAPIPassword");
+	dynamic shopify = new Shopify.Api("myAPIKey","myAPIPassword","somestore.myshopify.com");
 	var query = shopify.Products(handle: "sex-appeal");
 	var id = query.products[0].id
 	shopify.Products.Delete(id);
