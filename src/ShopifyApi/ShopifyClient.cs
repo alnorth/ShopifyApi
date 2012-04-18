@@ -7,26 +7,48 @@ using System.IO;
 using System.Dynamic;
 
 namespace Shopify {
-    public class Api : DynamicObject {
+    public class ShopifyClient : DynamicObject {
 
         private string _baseUrl { get; set; }
-        private string _accessToken { get; set; }
+        public string AccessToken { get; set; }
         public string ShopName { get; set; }
+        public ShopifyAuthorizationState AuthState { get; set; }
 
-        public Api(string shopeName, string accessToken)
+        public ShopifyClient(ShopifyAuthorizationState authState)
+        {
+            this.AuthState = authState;
+            this.AccessToken = authState.AccessToken;
+            this.ShopName = authState.ShopName;
+
+            _initBaseURL();
+        }
+
+        public ShopifyClient(string shopeName, string accessToken)
 	    {
-            ShopName = shopeName;
-            _accessToken = accessToken;
+            if (string.IsNullOrEmpty(shopeName))
+                throw new ArgumentNullException("accessToken");
 
+            if (string.IsNullOrEmpty(accessToken))
+                throw new ArgumentNullException("accessToken");
+
+            ShopName = shopeName;
+            AccessToken = accessToken;
+
+            _initBaseURL();
+	    }
+
+        private void _initBaseURL()
+        {
             //https://some-store.myshopify.com/admin/some-resource
             _baseUrl = String.Format("https://{0}.myshopify.com/admin/", ShopName); //some-store.myshopify.com
-	    }
+        }
+
         /// <summary>
         /// A simple GET request to the Shopify API
         /// </summary>
         string Send(string url) {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Headers.Add("X-Shopify-Access-Token", this._accessToken);
+            request.Headers.Add("X-Shopify-Access-Token", this.AccessToken);
 
             var response = (HttpWebResponse)request.GetResponse();
             string result = "";
@@ -50,7 +72,7 @@ namespace Shopify {
             if (!name.EndsWith("s"))
                 name += "s";
 
-            result = new ShopifyObject(name,_baseUrl, _accessToken);
+            result = new ShopifyObject(name,_baseUrl, AccessToken);
             return true;
         }
 

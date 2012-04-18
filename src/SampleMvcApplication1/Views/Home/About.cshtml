@@ -4,5 +4,14 @@
 
 <h2>About</h2>
 <p>
-     Put content here.
+     This API is connected to the @ViewBag.ShopName shop. 
 </p>
+
+<h3>Collections</h3>
+<ul>
+@foreach (dynamic collection in ViewBag.Collections)
+{
+    <li>@collection.title</li>
+}
+   
+</ul>

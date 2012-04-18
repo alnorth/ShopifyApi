@@ -32,7 +32,7 @@ namespace SampleMvcApplication1.Controllers
             {
                 // strip the .myshopify.com in case they added it
                 string shop = model.ShopName.Replace(".myshopify.com", String.Empty);
-                ShopifyAuthClient client = new ShopifyAuthClient(shop, ConfigurationManager.AppSettings["shopifyConsumerKey"], ConfigurationManager.AppSettings["shopifyConsumerSecret"]);
+                ShopifyAuthClient client = new ShopifyAuthClient(shop, ConfigurationManager.AppSettings["Shopify.ConsumerKey"], ConfigurationManager.AppSettings["Shopify.ConsumerSecret"]);
 
                 // prepare the URL that will be executed after authorization is requested
                 Uri requestUrl = this.Url.RequestContext.HttpContext.Request.Url;
@@ -56,7 +56,7 @@ namespace SampleMvcApplication1.Controllers
 
             shop = shop.Replace(".myshopify.com", String.Empty);
 
-            ShopifyAuthClient client = new ShopifyAuthClient(shop, ConfigurationManager.AppSettings["shopifyConsumerKey"], ConfigurationManager.AppSettings["shopifyConsumerSecret"]);
+            ShopifyAuthClient client = new ShopifyAuthClient(shop, ConfigurationManager.AppSettings["Shopify.ConsumerKey"], ConfigurationManager.AppSettings["Shopify.ConsumerSecret"]);
             ShopifyAuthorizationState authState = client.ProcessAuthorization();
             if (authState != null && authState.AccessToken != null)
             {
