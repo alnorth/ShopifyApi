@@ -7,8 +7,23 @@ How To Install It?
 ------------------
 Reference the Shopify.dll in your project.
 
+Shopify OAuth2
+------------------
+This API now supports Shopify's OAuth2 api.  Please, for now, look inside the sample application for an example on how to use it.
+
+Sample MVC Application
+------------------
+You can download this sample application in the src directory to see an example taken partialy from the Sample Facebook SDK Sample app.
+
+This App will take care of the login form, and OAuth2 authorization requirements
+
+
 How Do You Use It?
 ------------------
+
+STOP READING....... The samples below are a little outdated.  I will update when I have a chance.  For now, please follow the sample app.
+
+
 This might come as a big surprise to people... but it's all dynamic. You structure queries based on what you need from the API.
 
 For instance - if you want to query for products, you make a JSON request to the Shopify API (the docs are here: http://api.shopify.com/product.html):
