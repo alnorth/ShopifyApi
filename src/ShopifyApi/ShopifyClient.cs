@@ -72,7 +72,7 @@ namespace Shopify {
             if (!name.EndsWith("s"))
                 name += "s";
 
-            result = new ShopifyObject(name,_baseUrl, AccessToken);
+            result = new ShopifyObject(name, ShopName, AccessToken);
             return true;
         }
 
