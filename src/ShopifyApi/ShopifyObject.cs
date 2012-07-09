@@ -68,7 +68,15 @@ namespace Shopify {
 
             } else if (binder.Name == "Delete" || binder.Name == "Destroy") {
                 Delete(args[0].ToString());
-                Console.WriteLine("Blog {0} deleted ...", args[0].ToString());
+                Console.WriteLine("{0} deleted ...", args[0].ToString());
+            }
+            else if (binder.Name == "Close" || binder.Name == "Cancel" || binder.Name == "Open")
+            {
+                // Build the URL
+                string id = args[0].ToString();
+                var url = string.Format("{0}{1}/{2}/{3}.json", _baseUrl , this._objectType, id, binder.Name.ToLower());
+                Post(url, null);
+                Console.WriteLine("{0} {1} ...", binder.Name, id);
             } else {
                 throw new InvalidDataException("Can't tell what it is you want to do - try using Save or Delete instead");
             }
@@ -93,16 +101,20 @@ namespace Shopify {
             ExecuteRequest(url, "DELETE", "");
         }
         /// <summary>
-        /// Executes an HTTP POST - which adds an item to the Shopify DB
+        /// Executes an HTTP POST to a specific path - which adds an item to the Shopify DB
         /// </summary>
-        dynamic Post(string json) {
-            //build the URL
-            var url = _baseUrl + this._objectType + ".json";
+        dynamic Post(string url, string json) {
             var result = ExecuteRequest(url, "POST", json);
             //the result will be a pile of JSON
             //deserialize it and return
             return JsonHelper.Decode(result);
+        }
 
+        dynamic Post(string json)
+        {
+            //build the URL
+            var url = _baseUrl + this._objectType + ".json";
+            return Post(url, json);
         }
 
         /// <summary>
